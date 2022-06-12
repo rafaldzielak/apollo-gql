@@ -1,9 +1,19 @@
-import { UserList } from "../FakeData.js";
+import { UserList, MovieList } from "../FakeData.js";
+import _ from "lodash";
 
 export const resolvers = {
   Query: {
-    users() {
-      return UserList;
+    // USERS RESOLVERS
+    users: () => UserList,
+
+    user: (parent, args) => {
+      const user = UserList.find((user) => user.id === Number(args.id));
+      return user;
     },
+
+    // MOVIES RESOLVERS
+    movies: () => MovieList,
+
+    movie: (parent, args) => MovieList.find((movie) => movie.name === args.name),
   },
 };
