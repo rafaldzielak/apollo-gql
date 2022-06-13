@@ -16,4 +16,8 @@ export const resolvers = {
 
     movie: (parent, args) => MovieList.find((movie) => movie.name === args.name),
   },
+  User: {
+    favouriteMovies: () =>
+      MovieList.filter((movie) => movie.yearOfPublication >= 2000 && movie.yearOfPublication <= 2010),
+  },
 };
