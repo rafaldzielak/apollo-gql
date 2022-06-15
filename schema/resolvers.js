@@ -24,6 +24,20 @@ export const resolvers = {
       UserList.push(user);
       return user;
     },
+
+    updateUsername: (parent, args) => {
+      const user = UserList.find((user) => user.id === Number(args.input.id));
+      console.log(user);
+      user.username = args.input.username;
+      return user;
+    },
+
+    deleteUser: (parent, args) => {
+      const user = UserList.find((user) => user.id === Number(args.id));
+      // DELETE USER LOGIC
+      let deletedUser = { ...user };
+      return deletedUser;
+    },
   },
   User: {
     favouriteMovies: () =>
