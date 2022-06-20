@@ -1,12 +1,16 @@
 import { UserList, MovieList } from "../FakeData.js";
 import _ from "lodash";
 
+// query -> users -> favouriteMovies
+
 export const resolvers = {
   Query: {
     // USERS RESOLVERS
     users: () => UserList,
 
-    user: (parent, args) => {
+    user: (parent, args, context, info) => {
+      console.log(context);
+      console.log(info);
       const user = UserList.find((user) => user.id === Number(args.id));
       return user;
     },
@@ -40,7 +44,9 @@ export const resolvers = {
     },
   },
   User: {
-    favouriteMovies: () =>
-      MovieList.filter((movie) => movie.yearOfPublication >= 2000 && movie.yearOfPublication <= 2010),
+    favouriteMovies: (parent) => {
+      console.log(parent); // will console.log all users (every field of user)
+      return MovieList.filter((movie) => movie.yearOfPublication >= 2000 && movie.yearOfPublication <= 2010);
+    },
   },
 };
