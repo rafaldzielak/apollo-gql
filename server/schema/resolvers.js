@@ -6,7 +6,10 @@ import _ from "lodash";
 export const resolvers = {
   Query: {
     // USERS RESOLVERS
-    users: () => UserList,
+    users: () => {
+      if (UserList) return { users: UserList };
+      return { message: "Something went wrong" };
+    },
 
     user: (parent, args, context, info) => {
       console.log(context);
@@ -20,6 +23,7 @@ export const resolvers = {
 
     movie: (parent, args) => MovieList.find((movie) => movie.name === args.name),
   },
+
   Mutation: {
     createUser: (parent, args) => {
       const user = args.input;
@@ -43,10 +47,19 @@ export const resolvers = {
       return deletedUser;
     },
   },
+
   User: {
     favouriteMovies: (parent) => {
       console.log(parent); // will console.log all users (every field of user)
       return MovieList.filter((movie) => movie.yearOfPublication >= 2000 && movie.yearOfPublication <= 2010);
+    },
+  },
+
+  UsersResult: {
+    __resolveType(obj) {
+      if (obj.users) return "UsersSuccessResult";
+      if (obj.message) "UsersErrorResult";
+      return null;
     },
   },
 };
